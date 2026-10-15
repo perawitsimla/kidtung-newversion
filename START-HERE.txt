@@ -1,0 +1,8 @@
+เริ่มใช้งาน KidTung บน Mac:
+1) เปิด Terminal ในโฟลเดอร์นี้
+2) รัน: chmod +x start-mac.sh
+3) รัน: ./start-mac.sh
+4) เปิด http://127.0.0.1:8000
+
+ต้องมี PHP 8.3+ และ Composer ติดตั้งอยู่ก่อน
+ดูรายละเอียดเพิ่มใน README-RUN-TH.md

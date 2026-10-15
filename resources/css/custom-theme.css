@@ -1,0 +1,119 @@
+:root {
+    --primary-orange: #f97316;
+    --primary-orange-hover: #ea580c;
+    --primary-orange-light: #ffedd5;
+    --primary-orange-border: #fed7aa;
+    --bg-main: #fcfbf9;
+    --card-bg: #ffffff;
+    --text-color: #1f2937;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+}
+
+/* 1. พื้นหลังของทุกหน้า */
+body, .min-h-screen {
+    background-color: var(--bg-main) !important;
+    color: var(--text-color) !important;
+    font-family: 'Figtree', sans-serif, system-ui;
+}
+
+/* 2. ดีไซน์การ์ดสำหรับทุกหน้าและ Dashboard */
+.bg-white, 
+.dark\:bg-gray-800,
+div[class*="bg-white"],
+section {
+    background-color: var(--card-bg) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px -2px rgba(249, 115, 22, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.02) !important;
+    border: 1px solid rgba(249, 115, 22, 0.08) !important;
+}
+
+/* ยกเว้น Navigation Bar ด้านบนให้อยู่ทรงปกติแต่คุมขอบล่าง */
+nav, header {
+    border-radius: 0 !important;
+    border-bottom: 1px solid var(--primary-orange-border) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* 3. ฟอร์มและช่องกรอกข้อมูล (Inputs) ทุกหน้า */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+select,
+textarea {
+    background-color: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 10px !important;
+    padding: 0.65rem 1rem !important;
+    color: var(--text-color) !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none !important;
+    border-color: var(--primary-orange) !important;
+    box-shadow: 0 0 0 3px var(--primary-orange-light) !important;
+}
+
+/* 4. ปุ่มกด (Buttons) ทุกหน้า ให้เป็นธีมสีส้ม */
+button, 
+.inline-flex.items-center.px-4.py-2,
+a.inline-flex.items-center {
+    border-radius: 10px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+}
+
+/* ปุ่มหลัก (Primary Button) */
+button[type="submit"],
+.bg-gray-800,
+.bg-indigo-600,
+.bg-blue-600 {
+    background-color: var(--primary-orange) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25) !important;
+}
+
+button[type="submit"]:hover,
+.bg-gray-800:hover,
+.bg-indigo-600:hover,
+.bg-blue-600:hover {
+    background-color: var(--primary-orange-hover) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.35) !important;
+}
+
+/* 5. ตาราง (Tables) ทุกหน้าให้ขอบมนและเข้าธีม */
+table {
+    border-collapse: separate !important;
+    border-spacing: 0;
+    width: 100%;
+}
+
+th {
+    background-color: var(--primary-orange-light) !important;
+    color: #9a3412 !important;
+    font-weight: 600 !important;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid var(--primary-orange-border) !important;
+}
+
+td {
+    padding: 12px 16px !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* 6. ลิงก์ต่างๆ ในระบบ */
+a {
+    color: var(--primary-orange) !important;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--primary-orange-hover) !important;
+    text-decoration: underline;
+}

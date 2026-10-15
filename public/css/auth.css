@@ -1,0 +1,471 @@
+/* ==========================================================================
+   KidTung — auth.css
+   หน้า Login / Register (ใช้คลาสเดิมทั้งหมด ไม่ต้องแก้ไฟล์ Blade)
+   โทนสีหลัก: #f97316
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600&display=swap');
+
+/* --------------------------------------------------------------------------
+   1) Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+    --orange-50:  #fff7ed;
+    --orange-100: #ffedd5;
+    --orange-200: #fed7aa;
+    --orange-300: #fdba74;
+    --orange-400: #fb923c;
+    --orange-500: #f97316;   /* สีหลัก */
+    --orange-600: #ea580c;
+    --orange-700: #c2410c;
+    --orange-800: #9a3412;
+
+    --ink:        #1c1917;
+    --ink-soft:   #57534e;
+    --ink-mute:   #a8a29e;
+    --line:       #f0e4d8;
+    --field-bg:   #fffaf5;
+
+    --danger:     #dc2626;
+    --danger-bg:  #fef2f2;
+    --success:    #15803d;
+    --success-bg: #f0fdf4;
+
+    --radius-card: 28px;
+    --radius-field: 14px;
+
+    --font-ui: 'Prompt', 'Noto Sans Thai', 'Sarabun', 'Segoe UI', Tahoma, system-ui, sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2) Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+::selection {
+    background: var(--orange-200);
+    color: var(--orange-800);
+}
+
+/* --------------------------------------------------------------------------
+   3) พื้นหลัง: ไล่สีส้ม + ลูกบอลแสงลอยช้าๆ + ลายจุด
+   -------------------------------------------------------------------------- */
+body {
+    font-family: var(--font-ui);
+    color: var(--ink);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 16px;
+    position: relative;
+    overflow-x: hidden;
+    background:
+        radial-gradient(1200px 700px at 12% -10%, #fdba74 0%, transparent 60%),
+        radial-gradient(900px 600px at 110% 110%, #c2410c 0%, transparent 55%),
+        linear-gradient(135deg, #fb923c 0%, #f97316 45%, #ea580c 100%);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ลายจุดบางๆ */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, .22) 1.2px, transparent 1.3px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+            mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+
+/* --------------------------------------------------------------------------
+   4) การ์ดหลัก
+   -------------------------------------------------------------------------- */
+.auth-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 440px;
+    padding: 44px 36px 34px;
+    background: rgba(255, 255, 255, .96);
+    border-radius: var(--radius-card);
+    border: 1px solid rgba(255, 255, 255, .7);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, .9) inset,
+        0 2px 4px rgba(124, 45, 18, .06),
+        0 24px 48px -12px rgba(124, 45, 18, .35),
+        0 60px 90px -30px rgba(124, 45, 18, .35);
+    animation: card-in .7s var(--ease) both;
+    -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+}
+
+/* แถบสีส้มบางๆ ด้านบนการ์ด */
+.auth-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 96px;
+    height: 5px;
+    transform: translateX(-50%);
+    border-radius: 0 0 99px 99px;
+    background: linear-gradient(90deg, var(--orange-300), var(--orange-500), var(--orange-600));
+}
+
+@keyframes card-in {
+    from { opacity: 0; transform: translateY(24px) scale(.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   5) โลโก้ KidTung (เหรียญ ฿ + ชื่อแบรนด์)
+   -------------------------------------------------------------------------- */
+.kidtung {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+    text-align: center;
+    font-family: var(--font-ui);
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.5px;
+    color: var(--orange-600);
+}
+
+/* เหรียญ ฿ ลอยขึ้นลงเบาๆ */
+.kidtung::before {
+    content: "฿";
+    display: grid;
+    place-items: center;
+    width: 68px;
+    height: 68px;
+    border-radius: 22px;
+    font-size: 34px;
+    font-weight: 800;
+    color: #fff;
+    background:
+        radial-gradient(circle at 28% 22%, rgba(255, 255, 255, .55), transparent 45%),
+        linear-gradient(145deg, var(--orange-400), var(--orange-500) 55%, var(--orange-600));
+    box-shadow:
+        0 0 0 6px var(--orange-100),
+        0 14px 28px -6px rgba(249, 115, 22, .65);
+    transform: rotate(-8deg);
+    animation: coin-bob 4.5s ease-in-out infinite;
+}
+
+@keyframes coin-bob {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50%      { transform: translateY(-6px) rotate(-3deg); }
+}
+
+/* --------------------------------------------------------------------------
+   6) หัวข้อ
+   -------------------------------------------------------------------------- */
+.auth-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-header h1,
+.auth-header h2 {
+    color: var(--ink);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.2px;
+    margin-bottom: 6px;
+}
+
+.auth-header p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ขีดคั่นเล็กๆ ใต้หัวข้อ */
+.auth-header h2::after,
+.auth-header h1::after {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 4px;
+    margin: 12px auto 0;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--orange-300), var(--orange-500));
+}
+
+/* --------------------------------------------------------------------------
+   7) ฟอร์ม
+   -------------------------------------------------------------------------- */
+.form-group {
+    margin-bottom: 18px;
+    animation: field-in .6s var(--ease) both;
+}
+.form-group:nth-of-type(1) { animation-delay: .10s; }
+.form-group:nth-of-type(2) { animation-delay: .16s; }
+.form-group:nth-of-type(3) { animation-delay: .22s; }
+.form-group:nth-of-type(4) { animation-delay: .28s; }
+
+@keyframes field-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    padding-left: 2px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    transition: color .2s ease;
+}
+
+.form-group:focus-within .form-label {
+    color: var(--orange-600);
+}
+
+.form-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 18px;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--field-bg);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-field);
+    outline: none;
+    transition: border-color .2s ease, box-shadow .25s ease, background-color .2s ease, transform .2s ease;
+}
+
+.form-input::placeholder {
+    color: var(--ink-mute);
+}
+
+.form-input:hover {
+    border-color: var(--orange-200);
+}
+
+.form-input:focus {
+    background: #fff;
+    border-color: var(--orange-500);
+    box-shadow:
+        0 0 0 4px rgba(249, 115, 22, .16),
+        0 8px 20px -8px rgba(249, 115, 22, .35);
+}
+
+/* กัน Chrome autofill เปลี่ยนสีพื้นหลังเป็นฟ้า */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--ink);
+    -webkit-box-shadow: 0 0 0 1000px var(--orange-50) inset;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+/* สถานะ Error */
+.form-input.is-invalid {
+    border-color: var(--danger);
+    background: var(--danger-bg);
+    animation: shake .4s ease;
+}
+
+.form-input.is-invalid:focus {
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, .15);
+}
+
+@keyframes shake {
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+    padding-left: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--danger);
+}
+
+.error-message::before {
+    content: "!";
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--danger);
+}
+
+/* --------------------------------------------------------------------------
+   8) แถวจำรหัสผ่าน / ลืมรหัสผ่าน
+   -------------------------------------------------------------------------- */
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--orange-500);
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+
+.auth-button {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 54px;
+    margin-top: 6px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    color: #fff;
+    cursor: pointer;
+    border: 0;
+    border-radius: var(--radius-field);
+    background: linear-gradient(135deg, var(--orange-400) 0%, var(--orange-500) 50%, var(--orange-600) 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, .35) inset,
+        0 12px 24px -8px rgba(234, 88, 12, .7);
+    transition: transform .2s var(--ease), box-shadow .25s ease, filter .2s ease;
+}
+
+/* แสงวิ่งผ่านปุ่มตอน hover */
+.auth-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .45), transparent);
+    transform: skewX(-20deg);
+    transition: left .7s ease;
+}
+
+.auth-button:hover {
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, .35) inset,
+        0 18px 30px -8px rgba(234, 88, 12, .75);
+}
+
+
+
+/* --------------------------------------------------------------------------
+   10) ลิงก์ท้ายการ์ด
+   -------------------------------------------------------------------------- */
+.auth-footer {
+    margin-top: 26px;
+    padding-top: 22px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--ink-soft);
+    border-top: 1px dashed var(--line);
+}
+
+.auth-link {
+    position: relative;
+    margin-left: 4px;
+    font-weight: 700;
+    color: var(--orange-600);
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.auth-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s var(--ease);
+}
+
+.auth-link:hover {
+    color: var(--orange-700);
+}
+
+.auth-link:hover::after {
+    transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   11) แจ้งเตือน
+   -------------------------------------------------------------------------- */
+.alert-success {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--success);
+    background: var(--success-bg);
+    border: 1px solid #bbf7d0;
+    border-radius: var(--radius-field);
+    animation: field-in .5s var(--ease) both;
+}
+
+.alert-success::before {
+    content: "✓";
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: #22c55e;
+}
+

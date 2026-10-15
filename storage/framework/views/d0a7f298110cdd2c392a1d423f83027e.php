@@ -1,0 +1,113 @@
+<?php $__env->startSection('title', 'กลุ่มของฉัน | KidTung'); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="groups-page">
+    <header class="groups-heading">
+        <div class="groups-heading-copy">
+            <p class="groups-eyebrow">WORKSPACE <span>/</span> GROUPS</p>
+            <h1>กลุ่มของฉัน</h1>
+            <p class="groups-intro">รวมกลุ่มที่ใช้แชร์ค่าใช้จ่ายไว้ในที่เดียว</p>
+        </div>
+        <a href="<?php echo e(route('groups.create')); ?>" class="kt-button kt-button-primary">
+            <span class="kt-button-plus" aria-hidden="true">+</span>
+            สร้างกลุ่มใหม่
+        </a>
+    </header>
+
+    <section class="groups-summary" aria-label="สรุปกลุ่ม">
+        <div class="groups-summary-number"><?php echo e($groups->count()); ?></div>
+        <div class="groups-summary-copy">
+            <strong>กลุ่มที่คุณเข้าร่วม</strong>
+            <span>รายการกลุ่มที่คุณเป็นสมาชิกอยู่ในขณะนี้</span>
+        </div>
+    </section>
+
+    <section class="groups-tools" aria-label="ค้นหาหรือเข้าร่วมกลุ่ม">
+        <div class="groups-tool-card">
+            <div class="groups-tool-heading">
+                <span class="groups-tool-icon" aria-hidden="true">⌕</span>
+                <div>
+                    <h2>ค้นหากลุ่ม</h2>
+                    <p>ค้นหาจากชื่อกลุ่มที่คุณเข้าร่วมแล้ว</p>
+                </div>
+            </div>
+            <form method="GET" action="<?php echo e(route('groups.index')); ?>" class="groups-inline-form">
+                <label class="sr-only" for="search">ชื่อกลุ่ม</label>
+                <input type="search" name="search" id="search" value="<?php echo e($search ?? ''); ?>" placeholder="พิมพ์ชื่อกลุ่ม...">
+                <button type="submit" class="kt-button kt-button-dark">ค้นหา</button>
+            </form>
+        </div>
+
+        <div class="groups-tool-card groups-join-card">
+            <div class="groups-tool-heading">
+                <span class="groups-tool-icon groups-tool-icon-code" aria-hidden="true">#</span>
+                <div>
+                    <h2>เข้าร่วมด้วยรหัส</h2>
+                    <p>ใส่รหัสเชิญ 4 ตัวที่เพื่อนส่งให้</p>
+                </div>
+            </div>
+            <form method="POST" action="<?php echo e(route('groups.join')); ?>" class="groups-inline-form">
+                <?php echo csrf_field(); ?>
+                <label class="sr-only" for="invite_code">รหัสเชิญ 4 ตัว</label>
+                <input type="text" name="invite_code" id="invite_code" maxlength="4" minlength="4" required autocomplete="off" autocapitalize="characters" placeholder="เช่น A7K2" value="<?php echo e(old('invite_code')); ?>" class="groups-invite-input">
+                <button type="submit" class="kt-button kt-button-primary">เข้าร่วม</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="groups-list-section" aria-labelledby="groups-list-title">
+        <div class="groups-section-heading">
+            <div>
+                <h2 id="groups-list-title">กลุ่มที่คุณอยู่</h2>
+                <p>เปิดกลุ่มเพื่อดูรายการและจัดการค่าใช้จ่าย</p>
+            </div>
+            <span class="groups-result-count"><?php echo e($groups->count()); ?> กลุ่ม</span>
+        </div>
+
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($groups->isNotEmpty()): ?>
+            <div class="groups-grid">
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                    <article class="group-card">
+                        <div class="group-card-topline">
+                            <span class="group-monogram" aria-hidden="true"><?php echo e(mb_substr($group->name, 0, 1)); ?></span>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($group->pivot->role === 'admin'): ?>
+                                <span class="group-role group-role-admin">ผู้ดูแล</span>
+                            <?php else: ?>
+                                <span class="group-role">สมาชิก</span>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                        </div>
+
+                        <h3 class="group-card-title"><?php echo e($group->name); ?></h3>
+                        <p class="group-member-count"><?php echo e($group->members_count); ?> คนในกลุ่ม</p>
+
+                        <div class="group-invite-row">
+                            <span>รหัสเชิญ</span>
+                            <code><?php echo e($group->invite_code); ?></code>
+                        </div>
+
+                        <a href="<?php echo e(route('groups.show', $group->id)); ?>" class="group-open-link">
+                            เปิดหน้ากลุ่ม
+                            <span aria-hidden="true">→</span>
+                        </a>
+                    </article>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
+            </div>
+        <?php else: ?>
+            <div class="groups-empty-state">
+                <div class="groups-empty-mark" aria-hidden="true">＋</div>
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!empty($search)): ?>
+                    <h3>ไม่พบกลุ่มที่ตรงกับคำค้นหา</h3>
+                    <p>ลองใช้คำค้นอื่น หรือค้นหาด้วยชื่อที่สั้นลง</p>
+                    <a href="<?php echo e(route('groups.index')); ?>" class="groups-empty-link">ล้างคำค้นหา</a>
+                <?php else: ?>
+                    <h3>ยังไม่มีกลุ่มที่คุณเข้าร่วม</h3>
+                    <p>สร้างกลุ่มใหม่ หรือเข้าร่วมกลุ่มด้วยรหัสเชิญจากเพื่อน</p>
+                    <a href="<?php echo e(route('groups.create')); ?>" class="groups-empty-link">สร้างกลุ่มแรกของคุณ <span aria-hidden="true">→</span></a>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+            </div>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    </section>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /Users/kiwkiw/Downloads/kidtung-newversion-main 3/resources/views/groups/index.blade.php ENDPATH**/ ?>
